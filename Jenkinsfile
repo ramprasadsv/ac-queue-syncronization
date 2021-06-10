@@ -262,7 +262,7 @@ def getHopId (primary, userId, target) {
     println "Searching for Id for : $fName"        
     for(int i = 0; i < tl.HoursOfOperationSummaryList.size(); i++){
         def obj = tl.HoursOfOperationSummaryList[i]    
-        if (obj.Username.equals(fName)) {
+        if (obj.Name.equals(fName)) {
             rId = obj.Id
             println "Found Id : $rId"
             break
