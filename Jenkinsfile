@@ -69,23 +69,19 @@ pipeline {
         stage('Find missing queues') {
             steps {
                 echo "Find missing queues in the target instance"
-                withAWS(credentials: '71b568ab-3ca8-4178-b03f-c112f0fd5030', region: 'us-east-1') {
-                    script {
-                        def pl = jsonParse(PRIMARYQC)
-                        def tl = jsonParse(TARGETQC)
-                        int listSize = pl.QueueSummaryList.size() 
-                        println "Primary list size $listSize"
-                        for(int i = 0; i < listSize; i++){
-                            def obj = pl.QueueSummaryList[i]
-                            String qcName = obj.Name
-                            String qcId = obj.Id
-                            boolean qcFound = checkList(qcName, tl)
-                            if(qcFound == false) {
-                                println "Missing $qcName Id : $qcId"                                                              
-                                MISSINGQC = MISSINGQC.concat(qcId).concat(",")                                
-                            }
-                        }                        
-                    }                    
+                def pl = jsonParse(PRIMARYQC)
+                def tl = jsonParse(TARGETQC)
+                int listSize = pl.QueueSummaryList.size() 
+                println "Primary list size $listSize"
+                for(int i = 0; i < listSize; i++){
+                    def obj = pl.QueueSummaryList[i]
+                    String qcName = obj.Name
+                    String qcId = obj.Id
+                    boolean qcFound = checkList(qcName, tl)
+                    if(qcFound == false) {
+                        println "Missing $qcName Id : $qcId"                                                              
+                        MISSINGQC = MISSINGQC.concat(qcId).concat(",")                                
+                    }
                 }
                 echo "Missing list in the target instance -> ${MISSINGQC}"
             }
