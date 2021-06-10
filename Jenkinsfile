@@ -105,7 +105,7 @@ pipeline {
                                     echo dq
                                     def qc = jsonParse(di)
                                     def quickConnectList = jsonParse(dq)
-                                    def quickConnectList  
+                                    echo quickConnectList  
                                     String targetQCList
                                     if(quickConnectList) {
                                         for(int j=0; j< quickConnectList.QuickConnectSummaryList.size(); j++) {
