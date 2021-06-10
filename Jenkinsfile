@@ -164,8 +164,8 @@ pipeline {
                                         }
                                     }                                  
                                     
-                                    def cq =  sh(script: "aws connect create-queue --instance-id ${TRAGETINSTANCEARN} --name ${qcName} --description '${qcDesc}' ${maxContacts} ${outBoundConfig} " , returnStdout: true).trim()
-                                    //echo cq
+                                    def cq =  sh(script: "aws connect create-queue --instance-id ${TRAGETINSTANCEARN} --name ${qcName} --description \'${qcDesc}\' ${maxContacts} ${outBoundConfig} " , returnStdout: true).trim()
+                                    echo cq
 
                                }
                             }
