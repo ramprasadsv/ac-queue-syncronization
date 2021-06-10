@@ -52,9 +52,9 @@ pipeline {
                         TARGETQC =  sh(script: "aws connect list-quick-connects --instance-id ${TRAGETINSTANCEARN}", returnStdout: true).trim()
                         echo TARGETQC 
                         
-                        PRIMARYCFS =  sh(script: "aws connect list-contact-flows --instance-id ${INSTANCEARN}", returnStdout: true).trim()
+                        PRIMARYCFS =  sh(script: "aws connect list-contact-flows --instance-id ${INSTANCEARN} --contact-flow-types OUTBOUND_WHISPER", returnStdout: true).trim()
                         echo PRIMARYCFS
-                        TARGETCFS =  sh(script: "aws connect list-contact-flows --instance-id ${TRAGETINSTANCEARN}", returnStdout: true).trim()
+                        TARGETCFS =  sh(script: "aws connect list-contact-flows --instance-id ${TRAGETINSTANCEARN} --contact-flow-types OUTBOUND_WHISPER", returnStdout: true).trim()
                         echo TARGETCFS
                       
                         PRIMARYHOP = sh(script: "aws connect list-hours-of-operations --instance-id ${INSTANCEARN}", returnStdout: true).trim()
@@ -96,6 +96,7 @@ pipeline {
                 echo "Create the missing queues in the target instance "                
                 withAWS(credentials: '71b568ab-3ca8-4178-b03f-c112f0fd5030', region: 'us-east-1') {   
                     script {
+                        if(MISSINGQC > 1 ){
                         def qcList = MISSINGQC.split(",")
                         for(int i = 0; i < qcList.size(); i++){
                             String qcId = qcList[i]
@@ -156,6 +157,8 @@ pipeline {
                                 //String qcConfig = "QuickConnectType=QUEUE,QueueConfig=\\{QueueId=" + targetQueueId + ",ContactFlowId=" + targetFlowId +"\\}"                                    
                                 //def cq =  sh(script: "aws connect create-quick-connect --instance-id ${TRAGETINSTANCEARN} --name ${qcName} --description ${qcDesc} --quick-connect-config ${qcConfig}" , returnStdout: true).trim()
                                 //echo cq
+                            
+                               }
                             }
                         }
                     }                
