@@ -121,13 +121,15 @@ pipeline {
                                     String qcName = qc.Queue.Name
                                     String qcDesc = qc.Queue.Description
                                     String ouboundFlowId 
-                                    String qcCallerName 
-                                    if(qc.Queue.OutboundCallerConfig.OutboundFlowId) {
-                                        ouboundFlowId = qc.Queue.OutboundCallerConfig.OutboundFlowId 
+                                    String qcCallerName
+                                    if(qc.Queue.OutboundCallerConfig) {
+                                        if(qc.Queue.OutboundCallerConfig.OutboundFlowId) {
+                                            ouboundFlowId = qc.Queue.OutboundCallerConfig.OutboundFlowId 
+                                        }
+                                        if(qc.Queue.OutboundCallerConfig.OutboundCallerIdName ) {
+                                            qcCallerName = qc.Queue.OutboundCallerConfig.OutboundCallerIdName 
+                                        }                                                                      
                                     }
-                                    if(qc.Queue.OutboundCallerConfig.OutboundCallerIdName ) {
-                                        qcCallerName = qc.Queue.OutboundCallerConfig.OutboundCallerIdName 
-                                    }                              
 
                                     String hop
                                     if(qc.Queue.HoursOfOperationId) {
