@@ -104,8 +104,14 @@ pipeline {
                                     def dq =  sh(script: "aws connect list-queue-quick-connects --instance-id ${INSTANCEARN} --queue-id ${qcId}", returnStdout: true).trim()
                                     echo dq
                                     def qc = jsonParse(di)
-                                    def quickConnectList = jsonParse(dq)
-                                    echo quickConnectList  
+                                    def quickConnectList 
+                                    try {
+                                        quickConnectList = jsonParse(dq)
+                                        echo quickConnectList  
+                                    } catch (Exception e) {
+                                        echo "Exception occured while parsing QC " + e.toString()
+                                    }                                    
+                                    
                                     String targetQCList
                                     if(quickConnectList) {
                                         for(int j=0; j< quickConnectList.QuickConnectSummaryList.size(); j++) {
