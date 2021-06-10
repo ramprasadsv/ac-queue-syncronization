@@ -109,6 +109,16 @@ pipeline {
                                 if(dq.length() > 2) {
                                   qcList = jsonParse(dq)
                                 }
+                                String targetQCList
+                                if(qcList) {
+                                    for(int j=0; j< qcList.QuickConnectSummaryList.size(); j++) {
+                                        def obj = qcList.QuickConnectSummaryList[j]
+                                        String newId = getQuickConnectId(PRIMARYQC, obj.Id,PRIMARYQC)
+                                        targetQCList = targetQCList.concat(newId)
+                                    }
+                                }
+                                echo "QC List -> ${targetQCList}"
+                                
                                 String qcName = qc.Queue.Name
                                 String qcDesc = qc.Queue.Description
                                 String ouboundFlowId 
@@ -213,23 +223,23 @@ def getFlowId (primary, flowId, target) {
     return rId
 }
 
-def getQueueId (primary, queueId, target) {
+def getQuickConnectId (primary, qcId, target) {
     def pl = jsonParse(primary)
     def tl = jsonParse(target)
     String fName = ""
     String rId = ""
-    println "Searching for queueId : $queueId"
-    for(int i = 0; i < pl.QueueSummaryList.size(); i++){
-        def obj = pl.QueueSummaryList[i]    
-        if (obj.Id.equals(queueId)) {
+    println "Searching for qcId : $qcId"
+    for(int i = 0; i < pl.QuickConnectSummaryList.size(); i++){
+        def obj = pl.QuickConnectSummaryList[i]    
+        if (obj.Id.equals(qcId)) {
             fName = obj.Name
-            println "Found queue name : $fName"
+            println "Found qc name : $fName"
             break
         }
     }
             
-    for(int i = 0; i < tl.QueueSummaryList.size(); i++){
-        def obj = tl.QueueSummaryList[i]    
+    for(int i = 0; i < tl.QuickConnectSummaryList.size(); i++){
+        def obj = tl.QuickConnectSummaryList[i]    
         if (obj.Name.equals(fName)) {
             rId = obj.Id
             println "Found flow id : $rId"
