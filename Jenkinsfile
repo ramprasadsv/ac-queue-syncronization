@@ -79,7 +79,7 @@ pipeline {
                     String qcId = obj.Id
                     boolean qcFound = checkList(qcName, tl)
                     if(qcFound == false) {
-                        println "Missing $qcName Id : $qcId"                                                              
+                        println "Missing Name : $qcName Id : $qcId"                                                              
                         MISSINGQC = MISSINGQC.concat(qcId).concat(",")                                
                     }
                 }
