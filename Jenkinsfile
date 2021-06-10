@@ -251,20 +251,20 @@ def getHopId (primary, userId, target) {
     String fName = ""
     String rId = ""
     println "Searching for userId : $userId"
-    for(int i = 0; i < pl.UserSummaryList.size(); i++){
-        def obj = pl.UserSummaryList[i]    
+    for(int i = 0; i < pl.HoursOfOperationSummaryList.size(); i++){
+        def obj = pl.HoursOfOperationSummaryList[i]    
         if (obj.Id.equals(userId)) {
-            fName = obj.Username
-            println "Found user name : $fName"
+            fName = obj.Name
+            println "Found name : $fName"
             break
         }
     }
-    println "Searching for userId for : $fName"        
-    for(int i = 0; i < tl.UserSummaryList.size(); i++){
-        def obj = tl.UserSummaryList[i]    
+    println "Searching for Id for : $fName"        
+    for(int i = 0; i < tl.HoursOfOperationSummaryList.size(); i++){
+        def obj = tl.HoursOfOperationSummaryList[i]    
         if (obj.Username.equals(fName)) {
             rId = obj.Id
-            println "Found flow id : $rId"
+            println "Found Id : $rId"
             break
         }
     }
