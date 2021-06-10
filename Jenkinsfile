@@ -142,7 +142,7 @@ pipeline {
 
                                     String hopId
                                     if(qc.Queue.HoursOfOperationId) {
-                                        hopId = getHopId (PRIMARYHOP, qc.Queue.HoursOfOperationId, TARGETHOP)
+                                        hopId = getHopId (PRIMARYHOP, qc.Queue.HoursOfOperationId, TARGETHOP)                                        
                                     }
                                     String maxContacts = ""
                                     if(qc.Queue.MaxContacts ) {
@@ -165,7 +165,7 @@ pipeline {
                                         }
                                     }                                  
                                     
-                                    def cq =  sh(script: "aws connect create-queue --instance-id ${TRAGETINSTANCEARN} --name ${qcName} --description \"${qcDesc}\" ${maxContacts} ${outBoundConfig} " , returnStdout: true).trim()
+                                    def cq =  sh(script: "aws connect create-queue --instance-id ${TRAGETINSTANCEARN} --name ${qcName} --description \"${qcDesc}\" --hours-of-operation-id ${hopId} ${maxContacts} ${outBoundConfig} " , returnStdout: true).trim()
                                     echo cq
 
                                }
