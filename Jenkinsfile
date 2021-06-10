@@ -105,14 +105,14 @@ pipeline {
                                 def dq =  sh(script: "aws connect list-queue-quick-connects --instance-id ${INSTANCEARN} --queue-id ${qcId}", returnStdout: true).trim()
                                 echo dq
                                 def qc = jsonParse(di)
-                                def qcList
+                                def quickConnectList
                                 if(dq.length() > 2) {
-                                  qcList = jsonParse(dq)
+                                  quickConnectList = jsonParse(dq)
                                 }
                                 String targetQCList
-                                if(qcList) {
-                                    for(int j=0; j< qcList.QuickConnectSummaryList.size(); j++) {
-                                        def obj = qcList.QuickConnectSummaryList[j]
+                                if(quickConnectList) {
+                                    for(int j=0; j< quickConnectList.QuickConnectSummaryList.size(); j++) {
+                                        def obj = quickConnectList.QuickConnectSummaryList[j]
                                         String newId = getQuickConnectId(PRIMARYQC, obj.Id,PRIMARYQC)
                                         targetQCList = targetQCList.concat(newId)
                                     }
