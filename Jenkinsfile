@@ -104,15 +104,13 @@ pipeline {
                                     def dq =  sh(script: "aws connect list-queue-quick-connects --instance-id ${INSTANCEARN} --queue-id ${qcId}", returnStdout: true).trim()
                                     echo dq
                                     def qc = jsonParse(di)
-                                    def quickConnectList
-                                    if(dq.length() > 2) {
-                                      quickConnectList = jsonParse(dq)
-                                    }
+                                    def quickConnectList = jsonParse(dq)
+                                    def quickConnectList  
                                     String targetQCList
                                     if(quickConnectList) {
                                         for(int j=0; j< quickConnectList.QuickConnectSummaryList.size(); j++) {
                                             def obj = quickConnectList.QuickConnectSummaryList[j]
-                                            String newId = getQuickConnectId(PRIMARYQC, obj.Id,PRIMARYQC)
+                                            String newId = getQuickConnectId(PRIMARYQC, obj.Id, TARGETQC)
                                             targetQCList = targetQCList.concat(newId)
                                         }
                                     }
@@ -124,34 +122,23 @@ pipeline {
                                     String qcCallerName
                                     if(qc.Queue.OutboundCallerConfig) {
                                         if(qc.Queue.OutboundCallerConfig.OutboundFlowId) {
-                                            ouboundFlowId = qc.Queue.OutboundCallerConfig.OutboundFlowId 
+                                            ouboundFlowId = getFlowId (PRIMARYCFS, qc.Queue.OutboundCallerConfig.OutboundFlowId, TARGETCFS)  
                                         }
                                         if(qc.Queue.OutboundCallerConfig.OutboundCallerIdName ) {
                                             qcCallerName = qc.Queue.OutboundCallerConfig.OutboundCallerIdName 
                                         }                                                                      
                                     }
 
-                                    String hop
+                                    String hopId
                                     if(qc.Queue.HoursOfOperationId) {
-                                        hop = qc.Queue.HoursOfOperationId
+                                        hopId = getHopId (PRIMARYHOP, qc.Queue.HoursOfOperationId, TARGETHOP)
                                     }
                                     String maxContacts
                                     if(qc.Queue.MaxContacts ) {
                                         maxContacts = qc.Queue.MaxContacts 
                                     }
                                     String status = qc.Queue.Status 
-
                                     qc = null
-
-                                    String targetFlowId
-                                    if(ouboundFlowId){
-                                       targetFlowId = getFlowId (PRIMARYCFS, ouboundFlowId, TARGETCFS)  
-                                    }
-
-                                    String targetHOPId
-                                    if(hop){
-                                       targetHOPId = getHopId (PRIMARYHOP, hop, TARGETHOP)
-                                    }
 
                                     //String qcConfig = "QuickConnectType=QUEUE,QueueConfig=\\{QueueId=" + targetQueueId + ",ContactFlowId=" + targetFlowId +"\\}"                                    
                                     //def cq =  sh(script: "aws connect create-quick-connect --instance-id ${TRAGETINSTANCEARN} --name ${qcName} --description ${qcDesc} --quick-connect-config ${qcConfig}" , returnStdout: true).trim()
