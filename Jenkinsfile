@@ -125,7 +125,8 @@ pipeline {
                                         }
                                     }
                                     echo "QC config -> ${quickConnectConfig}"
-
+                                    quickConnectList = null
+                                    
                                     String qcName = qc.Queue.Name
                                     String qcDesc = qc.Queue.Description
                                     def ouboundFlowId 
