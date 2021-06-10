@@ -163,11 +163,9 @@ pipeline {
                                         } else {
                                             outBoundConfig = outBoundConfig.concat("OutboundFlowId=").concat(ouboundFlowId)
                                         }
-                                    }                                  
-                                    
+                                    }                                
                                     def cq =  sh(script: "aws connect create-queue --instance-id ${TRAGETINSTANCEARN} --name ${qcName} --description \"${qcDesc}\" --hours-of-operation-id ${hopId} ${maxContacts} ${outBoundConfig} " , returnStdout: true).trim()
                                     echo cq
-
                                }
                             }
                         }
