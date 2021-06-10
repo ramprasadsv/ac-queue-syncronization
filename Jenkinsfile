@@ -84,10 +84,10 @@ pipeline {
                                 println "Missing $qcName Id : $qcId"                                                              
                                 MISSINGQC = MISSINGQC.concat(qcId).concat(",")                                
                             }
-                        }
-                        echo "Missing list in the target instance -> ${MISSINGQC}"
-                    }
+                        }                        
+                    }                    
                 }
+                echo "Missing list in the target instance -> ${MISSINGQC}"
             }
         }
         
