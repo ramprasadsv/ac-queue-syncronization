@@ -69,8 +69,8 @@ pipeline {
         stage('Find missing queues') {
             steps {
                 echo "Find missing queues in the target instance"
-                def pl = jsonParse(PRIMARYQC)
-                def tl = jsonParse(TARGETQC)
+                def pl = jsonParse(PRIMARYQUEUES)
+                def tl = jsonParse(TARGETQUEUES)
                 int listSize = pl.QueueSummaryList.size() 
                 println "Primary list size $listSize"
                 for(int i = 0; i < listSize; i++){
