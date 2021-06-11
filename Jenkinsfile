@@ -116,7 +116,7 @@ pipeline {
                                     if(quickConnectList) {
                                         for(int j=0; j< quickConnectList.QuickConnectSummaryList.size(); j++) {
                                             def obj = quickConnectList.QuickConnectSummaryList[j]
-                                            String newId = getQuickConnectId(PRIMARYQC, obj.Arn, TARGETQC)
+                                            String newId = getQuickConnectId(PRIMARYQUEUES, obj.Arn, TARGETQUEUES)
                                             targetQCList = targetQCList.concat(" ").concat(newId)
                                         }
                                         if(targetQCList.length() > 2) {
