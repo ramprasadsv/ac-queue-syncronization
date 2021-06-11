@@ -180,6 +180,7 @@ pipeline {
             steps {
                 echo "completed sycnronizing both instances"                
                 withAWS(credentials: '71b568ab-3ca8-4178-b03f-c112f0fd5030', region: 'us-east-1') {   
+                    echo "completed sycnronizing both instances"                
                 }
             } 
          }
