@@ -116,11 +116,11 @@ pipeline {
                                     if(quickConnectList) {
                                         for(int j=0; j< quickConnectList.QuickConnectSummaryList.size(); j++) {
                                             def obj = quickConnectList.QuickConnectSummaryList[j]
-                                            String newId = getQuickConnectId(PRIMARYQC, obj.Id, TARGETQC)
+                                            String newId = getQuickConnectId(PRIMARYQC, obj.Arn, TARGETQC)
                                             targetQCList = targetQCList.concat(" ").concat(newId)
                                         }
                                         if(quickConnectList.QuickConnectSummaryList.size() > 0) {
-                                            quickConnectConfig = "--quick-connect-ids ${targetQCList}"
+                                            quickConnectConfig = "--quick-connect-ids \'${targetQCList}\'"
                                         }
                                     }
                                     echo "QC config -> ${quickConnectConfig}"
@@ -233,25 +233,16 @@ def getFlowId (primary, flowId, target) {
     return rId
 }
 
-def getQuickConnectId (primary, qcId, target) {
+def getQuickConnectId (primary, name, target) {
     def pl = jsonParse(primary)
     def tl = jsonParse(target)
-    String fName = ""
+    String fName = name
     String rId = ""
-    println "Searching for qcId : $qcId"
-    for(int i = 0; i < pl.QuickConnectSummaryList.size(); i++){
-        def obj = pl.QuickConnectSummaryList[i]    
-        if (obj.Id.equals(qcId)) {
-            fName = obj.Name
-            println "Found qc name : $fName"
-            break
-        }
-    }
             
-    for(int i = 0; i < tl.QuickConnectSummaryList.size(); i++){
-        def obj = tl.QuickConnectSummaryList[i]    
+    for(int i = 0; i < tl.QueueSummaryList.size(); i++){
+        def obj = tl.QueueSummaryList[i]    
         if (obj.Name.equals(fName)) {
-            rId = obj.Id
+            rId = obj.Arn
             println "Found flow id : $rId"
             break
         }
