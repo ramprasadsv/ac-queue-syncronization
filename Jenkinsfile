@@ -122,7 +122,7 @@ pipeline {
                                         }
                                         echo "Here are collections for QC : ${targetQCList}"
                                         if(targetQCList.length() > 2) {
-                                            quickConnectConfig = "--quick-connect-ids \'${targetQCList}\'"
+                                            quickConnectConfig = "--quick-connect ${targetQCList}"
                                         }
                                     }
                                     echo "QC config -> ${quickConnectConfig}"
