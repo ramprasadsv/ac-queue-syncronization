@@ -120,6 +120,7 @@ pipeline {
                                             String newId = getQuickConnectId(PRIMARYQUEUES, obj.Name, TARGETQUEUES)
                                             targetQCList = targetQCList.concat(" ").concat(newId)
                                         }
+                                        targetQCList = targetQCList.trim()
                                         echo "Here are collections for QC : ${targetQCList}"
                                         if(targetQCList.length() > 2) {
                                             quickConnectConfig = "--quick-connect-ids \'${targetQCList}\'"
