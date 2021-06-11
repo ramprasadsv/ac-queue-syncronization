@@ -165,7 +165,7 @@ pipeline {
                                             outBoundConfig = outBoundConfig.concat("OutboundFlowId=").concat(ouboundFlowId)
                                         }
                                     }                                
-                                    def cq =  sh(script: "aws connect create-queue --instance-id ${TRAGETINSTANCEARN} --name ${qcName} --description \"${qcDesc}\" --hours-of-operation-id ${hopId} ${maxContacts} ${outBoundConfig} " , returnStdout: true).trim()
+                                    def cq =  sh(script: "aws connect create-queue --instance-id ${TRAGETINSTANCEARN} --name ${qcName} --description \"${qcDesc}\" --hours-of-operation-id ${hopId} ${maxContacts} ${quickConnectConfig} ${outBoundConfig} " , returnStdout: true).trim()
                                     echo cq
                                }
                             }
@@ -175,9 +175,9 @@ pipeline {
             }
         } 
 
-         stage('Create Missing quick connects') {
+         stage('queue sync complete') {
             steps {
-                echo "Create the quick connects that were missing"                
+                echo "completed sycnronizing both instances"                
                 withAWS(credentials: '71b568ab-3ca8-4178-b03f-c112f0fd5030', region: 'us-east-1') {   
                 }
             } 
