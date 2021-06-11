@@ -111,7 +111,7 @@ pipeline {
                                         echo "Exception occured while parsing QC " + e.toString()
                                     }                                    
                                     
-                                    String targetQCList
+                                    String targetQCList = ""
                                     String quickConnectConfig = ""
                                     if(quickConnectList) {
                                         for(int j=0; j< quickConnectList.QuickConnectSummaryList.size(); j++) {
