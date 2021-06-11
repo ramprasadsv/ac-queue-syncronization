@@ -107,7 +107,6 @@ pipeline {
                                     def quickConnectList 
                                     try {
                                         quickConnectList = jsonParse(dq)
-                                        echo quickConnectList  
                                     } catch (Exception e) {
                                         echo "Exception occured while parsing QC " + e.toString()
                                     }                                    
