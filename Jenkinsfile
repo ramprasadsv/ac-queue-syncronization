@@ -244,7 +244,7 @@ def getQuickConnectId (primary, name, target) {
     for(int i = 0; i < tl.QueueSummaryList.size(); i++){
         def obj = tl.QueueSummaryList[i]    
         if (obj.Name.equals(fName)) {
-            rId = obj.Arn
+            rId = obj.Id
             println "Found id : $rId"
             break
         }
