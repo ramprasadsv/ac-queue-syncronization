@@ -153,19 +153,25 @@ pipeline {
                                     String status = qc.Queue.Status 
                                     qc = null
                                     
-                                    String outBoundConfig = "--outbound-caller-config "
+                                    String outBoundConfig = "--outbound-caller-config \'"
                                     boolean nameEnabled = false
+                                    boolean obConfigEnabled = false
                                     if(qcCallerName) {
                                         outBoundConfig = outBoundConfig.concat("OutboundCallerIdName=").concat(qcCallerName)
                                         nameEnabled = true
+                                        obConfigEnabled = true
                                     }
                                     if(ouboundFlowId) {
+                                        obConfigEnabled = true
                                         if(nameEnabled) {
                                             outBoundConfig = outBoundConfig.concat(",OutboundFlowId=").concat(ouboundFlowId)
                                         } else {
                                             outBoundConfig = outBoundConfig.concat("OutboundFlowId=").concat(ouboundFlowId)
                                         }
-                                    }                                
+                                    }
+                                    if(obConfigEnabled) {
+                                        outBoundConfig = outBoundConfig.concat("\'")
+                                    }
                                     def cq =  sh(script: "aws connect create-queue --instance-id ${TRAGETINSTANCEARN} --name ${qcName} --description \"${qcDesc}\" --hours-of-operation-id ${hopId} ${maxContacts} ${quickConnectConfig} ${outBoundConfig} " , returnStdout: true).trim()
                                     echo cq
                                }
