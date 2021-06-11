@@ -114,11 +114,13 @@ pipeline {
                                     String targetQCList = ""
                                     String quickConnectConfig = ""
                                     if(quickConnectList) {
+                                        echo "Collecting quick connect arns"
                                         for(int j=0; j< quickConnectList.QuickConnectSummaryList.size(); j++) {
                                             def obj = quickConnectList.QuickConnectSummaryList[j]
-                                            String newId = getQuickConnectId(PRIMARYQUEUES, obj.Arn, TARGETQUEUES)
+                                            String newId = getQuickConnectId(PRIMARYQUEUES, obj.Name, TARGETQUEUES)
                                             targetQCList = targetQCList.concat(" ").concat(newId)
                                         }
+                                        echo "Here are collections for QC : ${targetQCList}"
                                         if(targetQCList.length() > 2) {
                                             quickConnectConfig = "--quick-connect-ids \'${targetQCList}\'"
                                         }
@@ -238,12 +240,12 @@ def getQuickConnectId (primary, name, target) {
     def tl = jsonParse(target)
     String fName = name
     String rId = ""
-            
+    echo "Find ARN for name : ${fName}"       
     for(int i = 0; i < tl.QueueSummaryList.size(); i++){
         def obj = tl.QueueSummaryList[i]    
         if (obj.Name.equals(fName)) {
             rId = obj.Arn
-            println "Found flow id : $rId"
+            println "Found id : $rId"
             break
         }
     }
