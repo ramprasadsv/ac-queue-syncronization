@@ -118,7 +118,7 @@ pipeline {
                                         for(int j=0; j< quickConnectList.QuickConnectSummaryList.size(); j++) {
                                             def obj = quickConnectList.QuickConnectSummaryList[j]
                                             String newId = getQuickConnectId(PRIMARYQC, obj.Name, TARGETQC)
-                                            targetQCList = targetQCList.concat(" ").concat(newId)
+                                            targetQCList = targetQCList.concat("\"").concat(newId).concat("\"").concat(" ")
                                         }
                                         echo "Here are collections for QC : ${targetQCList}"
                                         if(targetQCList.length() > 2) {
