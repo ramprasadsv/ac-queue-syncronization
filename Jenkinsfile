@@ -119,7 +119,7 @@ pipeline {
                                             String newId = getQuickConnectId(PRIMARYQC, obj.Arn, TARGETQC)
                                             targetQCList = targetQCList.concat(" ").concat(newId)
                                         }
-                                        if(quickConnectList.QuickConnectSummaryList.size() > 0) {
+                                        if(targetQCList.length() > 2) {
                                             quickConnectConfig = "--quick-connect-ids \'${targetQCList}\'"
                                         }
                                     }
